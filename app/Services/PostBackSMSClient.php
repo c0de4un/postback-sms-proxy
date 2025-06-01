@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\API\GetNumberRequest;
+use App\Http\Requests\API\GetSMSRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 class PostBackSMSClient
 {
     const ACTION_GET_NUMBER = 'getNumber';
+    const ACTION_GET_SMS = 'getSMS';
 
     private readonly string $baseUrl;
     private readonly string $token;
@@ -27,6 +29,14 @@ class PostBackSMSClient
             'country'  => $request->country,
             'service'  => $request->service,
             'rent_time' => $request->rent_time ?? 0,
+        ]);
+    }
+
+    public function getSMS(GetSMSRequest $request): Response
+    {
+        return $this->sendRequest([
+            'action'     => self::ACTION_GET_SMS,
+            'activation' => $request->activation,
         ]);
     }
 
