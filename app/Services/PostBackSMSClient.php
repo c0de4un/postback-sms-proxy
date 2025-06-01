@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\API\CancelNumberRequest;
 use App\Http\Requests\API\GetNumberRequest;
 use App\Http\Requests\API\GetSMSRequest;
 use Illuminate\Http\Client\Response;
@@ -12,6 +13,7 @@ class PostBackSMSClient
 {
     const ACTION_GET_NUMBER = 'getNumber';
     const ACTION_GET_SMS = 'getSMS';
+    const ACTION_CANCEL_NUMBER = 'cancelNumber';
 
     private readonly string $baseUrl;
     private readonly string $token;
@@ -36,6 +38,14 @@ class PostBackSMSClient
     {
         return $this->sendRequest([
             'action'     => self::ACTION_GET_SMS,
+            'activation' => $request->activation,
+        ]);
+    }
+
+    public function cancelNumber(CancelNumberRequest $request): Response
+    {
+        return $this->sendRequest([
+            'action'     => self::ACTION_CANCEL_NUMBER,
             'activation' => $request->activation,
         ]);
     }
