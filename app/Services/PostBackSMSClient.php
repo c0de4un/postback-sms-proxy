@@ -14,6 +14,7 @@ class PostBackSMSClient
     const ACTION_GET_NUMBER = 'getNumber';
     const ACTION_GET_SMS = 'getSMS';
     const ACTION_CANCEL_NUMBER = 'cancelNumber';
+    const ACTION_GET_STATUS = 'getStatus';
 
     private readonly string $baseUrl;
     private readonly string $token;
@@ -46,6 +47,14 @@ class PostBackSMSClient
     {
         return $this->sendRequest([
             'action'     => self::ACTION_CANCEL_NUMBER,
+            'activation' => $request->activation,
+        ]);
+    }
+
+    public function getStatus(CancelNumberRequest $request): Response
+    {
+        return $this->sendRequest([
+            'action'     => self::ACTION_GET_STATUS,
             'activation' => $request->activation,
         ]);
     }
